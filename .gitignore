@@ -33,6 +33,7 @@ Music Tracks/
 # Imported Assets can be huge.
 /[Aa]ssets/Imported Assets
 /[Aa]ssets/Supercyan Character Pack Free Sample
+/[Aa]ssets/Photon
 
 # Gradle cache directory
 .gradle/

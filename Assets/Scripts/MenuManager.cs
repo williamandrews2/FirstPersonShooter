@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
+    // Variable bound the class not the object
     public static MenuManager Instance;
 
     [SerializeField] Menu[] menus;
@@ -20,8 +21,9 @@ public class MenuManager : MonoBehaviour
             {
                 OpenMenu(menus[i]);
             }
-            else if (menus[i].open)
+            else if (menus[i].isOpen)
             {
+                // Close menus that are not the one we want open
                 CloseMenu(menus[i]);
             }
         }
@@ -31,7 +33,7 @@ public class MenuManager : MonoBehaviour
     {
         for(int i = 0;i < menus.Length;i++) 
         {
-            if (menus[i].open)
+            if (menus[i].isOpen)
             {
                 CloseMenu(menus[i]);
             }

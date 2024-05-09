@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using Photon.Realtime;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
+       public static ConnectToServer Instance;
+
     [SerializeField] TMP_InputField roomNameInputField;
     [SerializeField] TMP_Text roomNameText;
+    [SerializeField] Transform roomListContent;
+    [SerializeField] GameObject roomListItemPrefab;
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
         Debug.Log("Connecting to server...");
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 
     public override void OnConnectedToMaster()
@@ -54,8 +64,27 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         MenuManager.Instance.OpenMenu("loading");
     }
 
+    public void JoinRoom(RoomInfo info)
+    {
+        PhotonNetwork.JoinRoom(info.Name);
+        MenuManager.Instance.OpenMenu("loading");
+    }
+
     public override void OnLeftRoom()
     {
-        MenuManager.Instance.OpenMenu("title");
+        MenuManager.Instance.OpenMenu("title"); 
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach(Transform trans in roomListContent)
+        {
+            // Clear the list every time we get an update
+            Destroy(trans.gameObject);
+        }
+        for(int i = 0; i < roomList.Count; i++)
+        {
+            Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i]);
+        }
     }
 }

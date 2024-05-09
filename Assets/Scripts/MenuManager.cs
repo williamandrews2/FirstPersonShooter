@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
+//using UnityEditorInternal;
 using UnityEngine;
+using Photon.Pun;
 
 public class MenuManager : MonoBehaviour
 {

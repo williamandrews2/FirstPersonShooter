@@ -22,6 +22,8 @@ public class PlayerListItem : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        // If the player that left the room matches the player we have referenced, 
+        // destroy the player name in the list.
         if(player == otherPlayer)
         {
             Destroy(gameObject);
@@ -30,6 +32,7 @@ public class PlayerListItem : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
+        // Destroy ourselves if we have left the room since we cannot see the players anymore
         Destroy(gameObject);
     }
 

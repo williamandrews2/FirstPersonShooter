@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
+using System.Linq;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
@@ -13,6 +14,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text roomNameText;
     [SerializeField] Transform roomListContent;
     [SerializeField] GameObject roomListItemPrefab;
+    [SerializeField] Transform playerListContent;
+    [SerializeField] GameObject playerListItemPrefab;
 
     private void Awake()
     {
@@ -35,11 +38,13 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("Joined lobby!");
+        // Temporarily set the newly joined player's nickname
+        PhotonNetwork.NickName = "Player" + Random.Range(0, 1000).ToString("0000");
     }
 
     public void CreateRoom()
     {
-        // Prevent rooms being created with empty names
+        // Prevent rooms being created with empty names.
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
             return;
@@ -53,6 +58,14 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         MenuManager.Instance.OpenMenu("room");
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+
+        Player[] players = PhotonNetwork.PlayerList;
+
+        for (int i = 0; i < players.Count(); i++)
+        {
+            // Loop through the entire list and create a new PlayerListItem for every player in that list.
+            Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
+        }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
@@ -81,12 +94,18 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         foreach(Transform trans in roomListContent)
         {
-            // Clear the list every time we get an update
+            // Clear the list every time we get an update.
             Destroy(trans.gameObject);
         }
         for(int i = 0; i < roomList.Count; i++)
         {
+            // Instantiate a new updated list of the available rooms.
             Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i]);
         }
+    }
+
+    public override void OnPlayerEnteredRoom (Player newPlayer)
+    {
+        Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
 }

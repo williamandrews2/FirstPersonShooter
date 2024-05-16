@@ -65,8 +65,14 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
         Player[] players = PhotonNetwork.PlayerList;
 
-        for (int i = 0; i < players.Count(); i++)
+        // Clear all the players from the playerListContent when we leave and create a new room.
+        foreach (Transform child in playerListContent)
         {
+            Destroy(child.gameObject);
+        }
+       
+        for (int i = 0; i < players.Count(); i++)
+        {            
             // Loop through the entire list and create a new PlayerListItem for every player in that list.
             Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
@@ -118,6 +124,12 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         }
         for(int i = 0; i < roomList.Count; i++)
         {
+            // Check statement to ensure we do not reinstantiate a room that has been removed
+            // since Photon only changes the bool value.
+            if (roomList[i].RemovedFromList)
+            {
+                continue;
+            }
             // Instantiate a new updated list of the available rooms.
             Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().SetUp(roomList[i]);
         }
@@ -126,5 +138,10 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom (Player newPlayer)
     {
         Instantiate(playerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

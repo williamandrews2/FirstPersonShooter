@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-//using UnityEditorInternal;
 using UnityEngine;
 using Photon.Pun;
 
@@ -9,6 +8,7 @@ public class MenuManager : MonoBehaviour
     // Variable bound the class not the object
     public static MenuManager Instance;
 
+    // Array that holds all the menus
     [SerializeField] Menu[] menus;
     private void Awake()
     {

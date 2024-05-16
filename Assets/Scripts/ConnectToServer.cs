@@ -7,21 +7,22 @@ using Photon.Realtime;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
-       public static ConnectToServer Instance;
+    public static ConnectToServer Instance;
 
     [SerializeField] TMP_InputField roomNameInputField;
     [SerializeField] TMP_Text roomNameText;
     [SerializeField] Transform roomListContent;
     [SerializeField] GameObject roomListItemPrefab;
-    void Start()
-    {
-        PhotonNetwork.ConnectUsingSettings();
-        Debug.Log("Connecting to server...");
-    }
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    void Start()
+    {
+        PhotonNetwork.ConnectUsingSettings();
+        Debug.Log("Connecting to server...");
     }
 
     public override void OnConnectedToMaster()
@@ -43,6 +44,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         {
             return;
         }
+
         PhotonNetwork.CreateRoom(roomNameInputField.text);
         MenuManager.Instance.OpenMenu("loading");
     }

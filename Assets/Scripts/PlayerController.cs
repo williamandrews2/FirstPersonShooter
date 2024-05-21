@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,13 +21,28 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
 
+    PhotonView PV;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        PV = GetComponent<PhotonView>();
+    }
+
+    private void Start()
+    {
+        if (!PV.IsMine)
+        {
+            // Destroy camera for anyone who is not the local player.
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+        }
     }
 
     private void Update()
     {
+        if(!PV.IsMine) 
+            return;
+
         Look();
         Move();
         Jump();              

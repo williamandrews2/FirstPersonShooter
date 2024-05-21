@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
         {
             // Destroy camera for anyone who is not the local player.
             Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(rb);
         }
     }
 
@@ -50,6 +51,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!PV.IsMine)
+            return;
         rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.deltaTime);
     }
 

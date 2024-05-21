@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.IO;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -24,6 +25,6 @@ public class PlayerManager : MonoBehaviour
     void CreateController()
     {
         // Instantiate our player controller.
-        Debug.Log("Instantiated player controller");
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), Vector2.zero, Quaternion.identity);
     }
 }

@@ -57,7 +57,16 @@ public class PlayerController : MonoBehaviour
 
         Look();
         Move();
-        Jump();              
+        Jump();
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            // Check every number key for items we have in our item array.
+            if(Input.GetKeyDown((i + 1).ToString()))
+            {
+                EquipItem(i); break;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -94,6 +103,12 @@ public class PlayerController : MonoBehaviour
 
     void EquipItem(int _index)
     {
+        // Prevent gun being hidden when number key is double pressed.
+        if(_index == previousItemIndex)
+        {
+            return;
+        }
+
         itemIndex = _index;
 
         // Enable the item for the chosen index in our array

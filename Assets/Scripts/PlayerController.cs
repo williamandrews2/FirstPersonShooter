@@ -8,6 +8,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject cameraHolder;
 
+    [SerializeField] Item[] items;
+
+    int itemIndex;
+    int previousItemIndex = -1; // Set to -1 because by default there is no previous item.
+
+    // Movement fields
     [SerializeField] float mouseSensitivity;
     [SerializeField] float sprintSpeed;
     [SerializeField] float walkSpeed;
@@ -31,7 +37,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        if (!PV.IsMine)
+        if (PV.IsMine)
+        {
+            // Equip the first item in our array when we first start the game.
+            EquipItem(0);
+        }
+        else
         {
             // Destroy camera for anyone who is not the local player.
             Destroy(GetComponentInChildren<Camera>().gameObject);
@@ -79,6 +90,21 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(transform.up * jumpForce);
         }
+    }
+
+    void EquipItem(int _index)
+    {
+        itemIndex = _index;
+
+        // Enable the item for the chosen index in our array
+        items[itemIndex].itemGameObject.SetActive(true);
+
+        if(previousItemIndex != -1)
+        {
+            items[previousItemIndex].itemGameObject.SetActive(false);
+        }
+
+        previousItemIndex = itemIndex;
     }
 
     public void SetGroundedState(bool _isGrounded)

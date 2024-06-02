@@ -59,12 +59,39 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
 
+        // Weapon switching
         for (int i = 0; i < items.Length; i++)
         {
             // Check every number key for items we have in our item array.
             if(Input.GetKeyDown((i + 1).ToString()))
             {
                 EquipItem(i); break;
+            }
+        }
+
+        // Scrolling up.
+        if(Input.GetAxisRaw("Mouse ScrollWheel") > 0f)
+        {
+            // Loop around to beginning of items array.
+            if(itemIndex >= items.Length - 1)
+            {
+                EquipItem(0);
+            }
+            else
+            {
+                EquipItem(itemIndex + 1);
+            }
+        }
+        // Scrolling down.
+        else if(Input.GetAxisRaw("Mouse ScrollWheel") < 0f)
+        {
+            if(itemIndex <= 0)
+            {
+                EquipItem(items.Length - 1);
+            }
+            else
+            {
+                EquipItem(itemIndex - 1);
             }
         }
     }

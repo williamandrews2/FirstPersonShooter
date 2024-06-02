@@ -1,10 +1,12 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable; // Use Photon's hashtable instead of default C# hashtable.
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject cameraHolder;
 
@@ -129,7 +131,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void EquipItem(int _index)
-    {
+    {        
         // Prevent gun being hidden when number key is double pressed.
         if(_index == previousItemIndex)
         {
@@ -147,6 +149,25 @@ public class PlayerController : MonoBehaviour
         }
 
         previousItemIndex = itemIndex;
+
+        // Check to make sure it is the local player equipping the item.
+        if (PV.IsMine)
+        {
+            // Send item index over the network. 
+            Hashtable hash = new Hashtable();
+            hash.Add("itemIndex", itemIndex);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            // OnPlayerPropertiesUpdate is called when this information is received.
+        }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        // Sync gun to the non-local players
+        if(!PV.IsMine && targetPlayer == PV.Owner)
+        {
+            EquipItem((int)changedProps["itemIndex"]);
+        }
     }
 
     public void SetGroundedState(bool _isGrounded)

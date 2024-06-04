@@ -12,12 +12,12 @@ public class SingleShotGun : Gun
 
     void Shoot()
     {
-        // New ray in the center of the screen so we always shoot in the middle of the screen.
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
         ray.origin = cam.transform.position;
+
         if(Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log("We hit "+ hit.collider.gameObject.name);
+            // Cast the itemInfo as a GunInfo since the itemInfo class does not contain the damage value.
             hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(((GunInfo)itemInfo).damage);
         }
     }

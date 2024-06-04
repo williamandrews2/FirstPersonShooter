@@ -35,7 +35,7 @@ public class PlayerManager : MonoBehaviour
         // Destroy current controller.
         PhotonNetwork.Destroy(controller);
 
-        // Handle the respawning.
+        // Instantiate a new player controller upon respawning.
         CreateController();
     }
 }

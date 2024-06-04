@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         // Check to make sure it is the local player equipping the item.
         if (PV.IsMine)
         {
-            // Send item index over the network. 
+            // Send custom properties over the network using a Hashtable.
             Hashtable hash = new Hashtable();
             hash.Add("itemIndex", itemIndex);
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        // Sync gun to the non-local players
+        // Receive and sync gun to the non-local players
         if(!PV.IsMine && targetPlayer == PV.Owner)
         {
             EquipItem((int)changedProps["itemIndex"]);

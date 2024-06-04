@@ -180,8 +180,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         isGrounded = _isGrounded;
     }
 
+    // Runs on the shooter's computer.
     public void TakeDamage(float damage)
     {
+       PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+
+    // Runs on everyone's computer.
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        // Check to make sure we only run this on the victim's computer.
+        if (!PV.IsMine)
+            return;
+
         Debug.Log("Took damage: " + damage);
+
     }
 }

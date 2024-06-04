@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable; // Use Photon's hashtable instead of default C# hashtable.
 
-public class PlayerController : MonoBehaviourPunCallbacks
+public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
     [SerializeField] GameObject cameraHolder;
 
@@ -96,6 +96,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 EquipItem(itemIndex - 1);
             }
         }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            items[itemIndex].Use();
+        }
     }
 
     private void FixedUpdate()
@@ -173,5 +178,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void SetGroundedState(bool _isGrounded)
     {
         isGrounded = _isGrounded;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("Took damage: " + damage);
     }
 }

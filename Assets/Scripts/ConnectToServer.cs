@@ -42,8 +42,6 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     {
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("Joined lobby!");
-        // Temporarily set the newly joined player's nickname
-        PhotonNetwork.NickName = "Player" + Random.Range(0, 1000).ToString("0000");
     }
 
     public void CreateRoom()

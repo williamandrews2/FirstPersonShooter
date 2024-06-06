@@ -35,8 +35,17 @@ public class SingleShotGun : Gun
     [PunRPC]
     void RPC_Shoot(Vector3 hitPosition, Vector3 hitNormal)
     {
-        Debug.Log("Hit position is " + hitPosition);
+        Collider[] colliders = Physics.OverlapSphere(hitPosition, 0.3f);
 
-        Instantiate(bulletImpactPrefab, hitPosition, Quaternion.LookRotation(hitNormal, Vector3.up) * bulletImpactPrefab.transform.rotation);
+        if(colliders.Length != 0)
+        {
+            GameObject bulletImpactObj =  Instantiate(bulletImpactPrefab, hitPosition + hitNormal * 0.001f, Quaternion.LookRotation(hitNormal, Vector3.up) * bulletImpactPrefab.transform.rotation);
+            
+            // Destroy the bullet impact after 10 seconds.
+            Destroy(bulletImpactObj, 10f);
+
+            // Parent the bullet impact to the object.
+            bulletImpactObj.transform.SetParent(colliders[0].transform);
+        }
     }
 }

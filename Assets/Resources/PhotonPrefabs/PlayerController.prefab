@@ -463,7 +463,7 @@ MonoBehaviour:
   items:
   - {fileID: 5266546783283191792}
   - {fileID: 8425982857050789862}
-  mouseSensitivity: 4
+  mouseSensitivity: 8
   sprintSpeed: 6
   walkSpeed: 3
   jumpForce: 300
@@ -521,6 +521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8536062649230521152}
   - component: {fileID: 5266546783283191792}
+  - component: {fileID: 4357399113698510238}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Untagged
@@ -558,7 +559,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: e8f7503c7c83b5347bd58dd5d4f960cf, type: 2}
   itemGameObject: {fileID: 7887241143622036417}
+  bulletImpactPrefab: {fileID: 5699623471304661040, guid: c491e9cc362378b429b07b3f7b418ec8, type: 3}
   cam: {fileID: 3452203600283165345}
+--- !u!114 &4357399113698510238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2433574273661840763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2981022072196849234
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,7 +739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5014529990258106996
 Transform:
   m_ObjectHideFlags: 0
@@ -812,6 +836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8793089229748999486}
   - component: {fileID: 8425982857050789862}
+  - component: {fileID: 2446917331459380807}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -849,7 +874,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 3ecca7006f4c599419b0e66a0782077a, type: 2}
   itemGameObject: {fileID: 7037869685112720688}
+  bulletImpactPrefab: {fileID: 5699623471304661040, guid: c491e9cc362378b429b07b3f7b418ec8, type: 3}
   cam: {fileID: 3452203600283165345}
+--- !u!114 &2446917331459380807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3262109009148168083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3846319002494235810
 GameObject:
   m_ObjectHideFlags: 0

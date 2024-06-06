@@ -4,10 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable; // Use Photon's hashtable instead of default C# hashtable.
 
 public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
 {
+    [SerializeField] Image healthbarImage;
+
+    [SerializeField] GameObject ui;
+
     [SerializeField] GameObject cameraHolder;
 
     [SerializeField] Item[] items;
@@ -56,6 +61,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             // Destroy camera for anyone who is not the local player.
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
+            Destroy(ui); // Destroy the overlapping canvas.
         }
     }
 
@@ -208,6 +214,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
             return;
 
         currentHealth -= damage;
+
+        // Update healthbar:
+        healthbarImage.fillAmount = currentHealth / maxHealth;
 
         if(currentHealth <= 0)
         {

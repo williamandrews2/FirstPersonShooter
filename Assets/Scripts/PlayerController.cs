@@ -70,9 +70,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if(!PV.IsMine) 
             return;
 
-        Look();
-        Move();
-        Jump();
+        if(Cursor.lockState == CursorLockMode.Locked)
+        {
+            Look();
+            Move();
+            Jump();
+        }  
 
         // Weapon switching
         for (int i = 0; i < items.Length; i++)

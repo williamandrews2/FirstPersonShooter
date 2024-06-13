@@ -5,6 +5,11 @@ using Photon.Pun;
 
 public class CursorLockToggle : MonoBehaviour
 {
+    PhotonView PV;
+    private void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+    }
     private void Start()
     {
         // Initialize the player with a locked cursor.
@@ -13,15 +18,18 @@ public class CursorLockToggle : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (PV.IsMine)
         {
-            if(Cursor.lockState == CursorLockMode.Locked)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                UnlockCursor();
-            }
-            else
-            {
-                LockCursor();
+                if (Cursor.lockState == CursorLockMode.Locked)
+                {
+                    UnlockCursor();
+                }
+                else
+                {
+                    LockCursor();
+                }
             }
         }
     }

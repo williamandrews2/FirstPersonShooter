@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -26,9 +27,16 @@ public class PlayerManager : MonoBehaviour
 
     void CreateController()
     {
-        Transform spawnpoint = SpawnManager.Instance.GetSpawnpoint();
+        Transform spawnpoint = SpawnManager.Instance.GetInitialSpawnpoint();
         // Instantiate our player controller.
         controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position, spawnpoint.rotation,0,new object[] {PV.ViewID});
+    }
+
+    void Respawn()
+    {
+        Transform spawnpoint = SpawnManager.Instance.GetRespawnpoint();
+        // Instantiate the player controller.
+        controller = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), spawnpoint.position, spawnpoint.rotation, 0, new object[] { PV.ViewID });
     }
 
     public void Die()
@@ -37,6 +45,6 @@ public class PlayerManager : MonoBehaviour
         PhotonNetwork.Destroy(controller);
 
         // Instantiate a new player controller upon respawning.
-        CreateController();
+        Respawn();
     }
 }

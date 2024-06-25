@@ -8,6 +8,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
 {
     [SerializeField] Transform container;
     [SerializeField] GameObject scoreboardItemPrefab;
+    [SerializeField] CanvasGroup canvasGroup;
 
     Dictionary<Player, ScoreboardItem> scoreboardItems = new Dictionary<Player, ScoreboardItem>(); 
 
@@ -17,6 +18,23 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         {
             AddScoreboardItem(player);
         }
+    }
+
+    private void Update()
+    {
+        // Show scoreboard by pressing Tab.
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if(canvasGroup.alpha == 1)
+            {
+                canvasGroup.alpha = 0;
+            }
+            else
+            {
+                canvasGroup.alpha = 1;
+            }
+            
+        } 
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

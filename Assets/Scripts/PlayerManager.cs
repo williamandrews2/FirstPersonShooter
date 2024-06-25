@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     GameObject controller;
 
     int kills;
+    int deaths;
 
     private void Awake()
     {
@@ -49,6 +50,12 @@ public class PlayerManager : MonoBehaviour
         // Destroy current controller.
         PhotonNetwork.Destroy(controller);
 
+        // Update death counter in the scoreboard.
+        deaths++;
+        Hashtable hash = new Hashtable();
+        hash.Add("deaths", deaths);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
         // Instantiate a new player controller upon respawning.
         Respawn();
     }
@@ -62,7 +69,6 @@ public class PlayerManager : MonoBehaviour
     void RPC_GetKill()
     {
         kills++;
-
         Hashtable hash = new Hashtable();
         hash.Add("kills", kills);
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);

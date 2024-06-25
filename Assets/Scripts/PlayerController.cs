@@ -191,7 +191,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         // Receive and sync gun to the non-local players
-        if(!PV.IsMine && targetPlayer == PV.Owner)
+        if(changedProps.ContainsKey("itemIndex") && !PV.IsMine && targetPlayer == PV.Owner)
         {
             EquipItem((int)changedProps["itemIndex"]);
         }
@@ -205,17 +205,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
     // Runs on the shooter's computer.
     public void TakeDamage(float damage)
     {
-       PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+       PV.RPC(nameof(RPC_TakeDamage), PV.Owner, damage);
     }
 
     // Runs on everyone's computer.
     [PunRPC]
-    void RPC_TakeDamage(float damage)
+    void RPC_TakeDamage(float damage, PhotonMessageInfo info)
     {
-        // Check to make sure we only run this on the victim's computer.
-        if (!PV.IsMine)
-            return;
-
         currentHealth -= damage;
 
         // Update healthbar:
@@ -224,6 +220,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IDamageable
         if(currentHealth <= 0)
         {
             Die();
+            PlayerManager.Find(info.Sender).GetKill();
         }
     }
 

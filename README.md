@@ -1,4 +1,4 @@
-# FirstPersonShooter
+# PixelStrike
 
 This is a multiplayer First Person Shooter (FPS) game developed in Unity, leveraging Photon Unity Networking (PUN) for real-time networking capabilities. The project encompasses essential multiplayer features, including health systems, leaderboards, lobby management, and persistent player data storage.
 
